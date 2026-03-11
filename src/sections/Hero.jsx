@@ -1,93 +1,88 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 export default function Hero() {
-  const sectionRef = useRef(null);
-  const titleRef = useRef(null);
-  const subtitleRef = useRef(null);
-  const taglineRef = useRef(null);
+  const containerRef = useRef(null);
 
-  useEffect(() => {
-    const tl = gsap.timeline({ delay: 2.5 });
+  useGSAP(() => {
+    const tl = gsap.timeline();
+
+    // Reset initial states to prevent flash
+    gsap.set('.hero__title-word', { y: '110%', opacity: 0 });
+
+    // Initial name reveal
+    tl.to('.hero__title-word', {
+      y: 0,
+      opacity: 1,
+      duration: 1.2,
+      stagger: 0.1,
+      ease: 'power4.out',
+      delay: 0.5
+    });
 
     // Subtitle fade in
-    tl.fromTo(
-      subtitleRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }
-    );
-
-    // Title words stagger reveal
-    const words = titleRef.current?.querySelectorAll('.hero__title-word');
-    if (words) {
-      tl.to(
-        words,
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          stagger: 0.12,
-          ease: 'power4.out',
-        },
-        '-=0.4'
-      );
-    }
+    tl.from('.hero__subtitle', {
+      opacity: 0,
+      y: 20,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, '-=0.8');
 
     // Tagline fade in
-    tl.fromTo(
-      taglineRef.current,
-      { opacity: 0, y: 15 },
-      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
-      '-=0.4'
-    );
-  }, []);
+    tl.from('.hero__tagline', {
+      opacity: 0,
+      y: 20,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, '-=0.6');
+
+    // Scroll hint bounce
+    gsap.from('.hero__scroll-hint', {
+      opacity: 0,
+      y: -20,
+      duration: 1,
+      delay: 2,
+      ease: 'power3.out'
+    });
+  }, { scope: containerRef });
 
   // Glitch effect on hover
   const handleGlitch = (e) => {
-    const el = e.target;
-    el.classList.add('glitching');
-    el.setAttribute('data-text', el.textContent);
-
+    const el = e.currentTarget;
+    const word = el.querySelector('.hero__title-word'); // Or the whole thing
+    
     gsap.to(el, {
       skewX: () => gsap.utils.random(-3, 3),
       duration: 0.05,
       yoyo: true,
-      repeat: 5,
+      repeat: 3,
       ease: 'power1.inOut',
       onComplete: () => {
         gsap.set(el, { skewX: 0 });
-        el.classList.remove('glitching');
       },
     });
   };
 
   return (
-    <section id="hero" className="hero" ref={sectionRef}>
-      <p className="hero__subtitle" ref={subtitleRef}>
-        ✦ Welcome to my universe ✦
-      </p>
-
-      <h1 className="hero__title" ref={titleRef} onMouseEnter={handleGlitch}>
+    <section id="hero" className="hero" ref={containerRef}>
+      <div className="hero__subtitle">WELCOME TO THE FUTURE</div>
+      <h1 className="hero__title font-display" onMouseEnter={handleGlitch}>
         <span className="hero__title-line">
-          <span className="hero__title-word text-gradient">CREATIVE</span>
+          <span className="hero__title-word">BHANU</span>
+          <span className="hero__title-word" style={{ marginLeft: '1.5rem', color: 'var(--neon-pink)' }}>SAI</span>
         </span>
         <span className="hero__title-line">
-          <span className="hero__title-word text-gradient">DEVELOPER</span>
-        </span>
-        <span className="hero__title-line">
-          <span className="hero__title-word" style={{ color: 'var(--neon-cyan)' }}>
-            &amp; DESIGNER
-          </span>
+          <span className="hero__title-word">YARASU</span>
         </span>
       </h1>
-
-      <p className="hero__tagline" ref={taglineRef}>
-        Crafting immersive digital experiences at the intersection of
-        code, art, and imagination.
+      <p className="hero__tagline">
+        Creative Developer & 3D Artist. Crafting immersive digital 
+        experiences at the intersection of imagination and code.
       </p>
 
       <div className="hero__scroll-hint">
-        <span>Scroll</span>
+        <span>SCROLL TO EXPLORE</span>
         <div className="hero__scroll-line" />
       </div>
     </section>

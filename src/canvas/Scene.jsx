@@ -1,52 +1,64 @@
+import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Bloom, EffectComposer, ChromaticAberration } from '@react-three/postprocessing';
-import { BlendFunction } from 'postprocessing';
+import { OrbitControls, PerspectiveCamera, Environment, Float, ContactShadows } from '@react-three/drei';
+import { EffectComposer, Bloom, Noise, Vignette, ChromaticAberration } from '@react-three/postprocessing';
+import { useGSAP } from '@gsap/react';
+
 import FloatingIsland from './FloatingIsland';
 import ParticleField from './ParticleField';
 import ScrollRig from './ScrollRig';
 
-export default function Scene({ scrollProgress = 0 }) {
+export default function Scene({ scrollProgress }) {
   return (
     <Canvas
-      camera={{ position: [0, 3, 8], fov: 45, near: 0.1, far: 100 }}
-      dpr={[1, 1.5]}
-      gl={{ antialias: true, alpha: true }}
-      style={{ background: 'transparent' }}
+      shadows
+      dpr={[1, 2]} // Performance: Limit pixel ratio on 4K/retina
+      gl={{ 
+        antialias: true,
+        powerPreference: "high-performance",
+        alpha: true 
+      }}
+      style={{ pointerEvents: 'none' }}
     >
-      {/* Lighting */}
-      <ambientLight intensity={0.15} color="#e0e0ff" />
-      <directionalLight
-        position={[5, 8, 5]}
-        intensity={0.6}
-        color="#ffffff"
-        castShadow
-        shadow-mapSize={[1024, 1024]}
-      />
-      {/* Neon point lights */}
-      <pointLight position={[-3, 2, 3]} intensity={2} color="#00f0ff" distance={12} decay={2} />
-      <pointLight position={[3, 1, -3]} intensity={1.5} color="#ff2d7b" distance={10} decay={2} />
-      <pointLight position={[0, 4, 0]} intensity={1} color="#a855f7" distance={8} decay={2} />
+      <PerspectiveCamera makeDefault position={[0, 0, 5]} fov={50} />
+      
+      {/* Lights */}
+      <ambientLight intensity={0.5} />
+      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
+      <pointLight position={[-10, -10, -10]} intensity={1} color="var(--neon-pink)" />
+      <pointLight position={[10, 5, 5]} intensity={1.5} color="var(--neon-cyan)" />
 
-      {/* Fog for depth */}
-      <fog attach="fog" args={['#0a0e1a', 8, 25]} />
+      <Suspense fallback={null}>
+        <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
+          <FloatingIsland scrollProgress={scrollProgress} />
+        </Float>
+        
+        <ParticleField />
+        
+        <Environment preset="night" />
+        
+        <ContactShadows 
+          position={[0, -2, 0]} 
+          opacity={0.4} 
+          scale={10} 
+          blur={2} 
+          far={4.5} 
+        />
+      </Suspense>
 
-      {/* 3D Scene Objects */}
-      <FloatingIsland scrollProgress={scrollProgress} />
-      <ParticleField />
       <ScrollRig scrollProgress={scrollProgress} />
 
-      {/* Post-processing */}
-      <EffectComposer>
-        <Bloom
-          intensity={0.8}
-          luminanceThreshold={0.3}
-          luminanceSmoothing={0.9}
-          mipmapBlur
+      {/* Post-Processing */}
+      <EffectComposer disableNormalPass>
+        <Bloom 
+          luminanceThreshold={1} 
+          mipmapBlur 
+          intensity={0.5} 
+          radius={0.4} 
         />
-        <ChromaticAberration
-          blendFunction={BlendFunction.NORMAL}
-          offset={[0.0005, 0.0005]}
-        />
+        <ChromaticAberration offset={[0.0005, 0.0005]} />
+        <Noise opacity={0.05} />
+        <Vignette eskil={false} offset={0.1} darkness={1.1} />
       </EffectComposer>
     </Canvas>
   );

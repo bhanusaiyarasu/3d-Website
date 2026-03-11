@@ -1,86 +1,74 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useTilt } from '../hooks/useTilt';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function About() {
-  const sectionRef = useRef(null);
-  const { ref: cardRef, handleMouseMove, handleMouseLeave } = useTilt(12);
+  const containerRef = useRef(null);
+  const { ref: tiltRef, handleMouseMove, handleMouseLeave } = useTilt(5);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.about__card',
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-            end: 'top 30%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
+  useGSAP(() => {
+    // Card reveal
+    gsap.from('.about__card', {
+      opacity: 0,
+      y: 100,
+      duration: 1.2,
+      ease: 'power4.out',
+      scrollTrigger: {
+        trigger: '.about__card',
+        start: 'top 85%',
+      }
+    });
 
-      // Animate stats
-      gsap.fromTo(
-        '.about__stat',
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.15,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.about__stats',
-            start: 'top 80%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+    // Stats stagger
+    gsap.from('.about__stat', {
+      opacity: 0,
+      scale: 0.8,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: 'back.out(1.7)',
+      scrollTrigger: {
+        trigger: '.about__stats',
+        start: 'top 90%',
+      }
+    });
+  }, { scope: containerRef });
 
   return (
-    <section id="about" className="about" ref={sectionRef}>
-      <div
-        className="about__card glass glow-border-cyan"
-        ref={cardRef}
+    <section id="about" className="about" ref={containerRef}>
+      <div 
+        ref={tiltRef}
+        className="about__card glass"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        <p className="about__label">// ABOUT ME</p>
-        <h2 className="about__heading">
-          I build <span className="text-gradient">digital worlds</span> that feel alive
+        <div className="about__label">THE ARCHITECT</div>
+        <h2 className="about__heading font-display">
+          Building Digital <span className="text-gradient">Worlds</span> 
+          with Code and Art.
         </h2>
+        
         <p className="about__text">
-          A full-stack creative developer with a passion for blending cutting-edge
-          technology with stunning visual design. I specialize in interactive 3D web
-          experiences, generative art, and immersive UI that pushes the boundaries
-          of what's possible in a browser. When I'm not coding, you'll find me
-          watching anime or exploring new musical landscapes.
+          I'm a multidisciplinary developer specializing in high-performance WebGL 
+          experiences. My work blends cinematic storytelling with cutting-edge 
+          frontend engineering to create websites that don't just work—they inspire.
         </p>
+
         <div className="about__stats">
           <div className="about__stat">
-            <div className="about__stat-value text-gradient">5+</div>
-            <div className="about__stat-label">Years Experience</div>
-          </div>
-          <div className="about__stat">
             <div className="about__stat-value text-gradient">50+</div>
-            <div className="about__stat-label">Projects Shipped</div>
+            <div className="about__stat-label">Projects</div>
           </div>
           <div className="about__stat">
-            <div className="about__stat-value text-gradient">∞</div>
-            <div className="about__stat-label">Curiosity</div>
+            <div className="about__stat-value text-gradient">4yrs</div>
+            <div className="about__stat-label">Exp</div>
+          </div>
+          <div className="about__stat">
+            <div className="about__stat-value text-gradient">99%</div>
+            <div className="about__stat-label">Vibe</div>
           </div>
         </div>
       </div>

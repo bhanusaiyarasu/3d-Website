@@ -1,6 +1,7 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,46 +11,43 @@ export default function VideoPortal() {
   const videoRef = useRef(null);
   const textRef = useRef(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Expand circle on scroll
-      gsap.fromTo(
-        portalRef.current,
-        {
-          clipPath: 'circle(15% at 50% 50%)',
-        },
-        {
-          clipPath: 'circle(75% at 50% 50%)',
-          ease: 'power2.inOut',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 1,
-          }
+  useGSAP(() => {
+    // Expand circle on scroll
+    gsap.fromTo(
+      portalRef.current,
+      {
+        clipPath: 'circle(15% at 50% 50%)',
+      },
+      {
+        clipPath: 'circle(75% at 50% 50%)',
+        ease: 'power2.inOut',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 1.5, // Slightly higher scrub for momentum feel
+          invalidateOnRefresh: true, // Handle resizes automatically
         }
-      );
+      }
+    );
 
-      // Parallax text inside
-      gsap.fromTo(
-        textRef.current,
-        { scale: 0.8, opacity: 0 },
-        {
-          scale: 1.2,
-          opacity: 0.3,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          }
+    // Parallax text inside
+    gsap.fromTo(
+      textRef.current,
+      { scale: 0.8, opacity: 0 },
+      {
+        scale: 1.15,
+        opacity: 0.3,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
         }
-      );
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
+      }
+    );
+  }, { scope: containerRef }); // Scoped to container for stability
 
   return (
     <div className="video-portal-wrapper" ref={containerRef}>
@@ -85,5 +83,6 @@ export default function VideoPortal() {
     </div>
   );
 }
+
 
 
