@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useMagnetic } from '../hooks/useMagnetic';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { pathname } = useLocation();
   const links = [
     { label: 'Home', href: '/' },
-    { label: 'Work', href: '/work' },
-    { label: 'About', href: '/about' },
+    { label: 'Work', href: '/work', id: 'work' },
+    { label: 'About', href: '/about', id: 'about' },
   ];
 
   return (
@@ -24,15 +25,32 @@ export default function Navbar() {
 
       <ul className="navbar__links">
         {links.map((link) => (
-          <NavLink key={link.label} {...link} closeMenu={() => setIsOpen(false)} />
+          <NavLink 
+            key={link.label} 
+            {...link} 
+            isHome={pathname === '/'}
+            closeMenu={() => setIsOpen(false)} 
+          />
         ))}
       </ul>
     </nav>
   );
 }
 
-function NavLink({ label, href, closeMenu }) {
+function NavLink({ label, href, id, isHome, closeMenu }) {
   const { ref, handleMouseMove, handleMouseLeave } = useMagnetic(0.2);
+  const navigate = useNavigate();
+
+  const handleClick = (e) => {
+    closeMenu();
+    if (isHome && id) {
+      const element = document.getElementById(id);
+      if (element) {
+        e.preventDefault();
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <li className="navbar__item">
@@ -42,12 +60,13 @@ function NavLink({ label, href, closeMenu }) {
         className="navbar__link"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        onClick={closeMenu}
+        onClick={handleClick}
       >
         {label}
       </Link>
     </li>
   );
 }
+
 
 
