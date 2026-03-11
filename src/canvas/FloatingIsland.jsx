@@ -2,7 +2,7 @@ import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-export default function FloatingIsland({ scrollProgress = 0 }) {
+export default function FloatingIsland({ scrollState }) {
   const groupRef = useRef();
   const glowRef = useRef();
   const orbitsRef = useRef();
@@ -44,6 +44,7 @@ export default function FloatingIsland({ scrollProgress = 0 }) {
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
+    const scrollProgress = scrollState?.progress || 0;
 
     if (groupRef.current) {
       // Scroll-driven rotation and zoom

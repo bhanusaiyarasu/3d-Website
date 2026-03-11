@@ -8,7 +8,7 @@ import FloatingIsland from './FloatingIsland';
 import ParticleField from './ParticleField';
 import ScrollRig from './ScrollRig';
 
-export default function Scene({ scrollProgress }) {
+export default function Scene({ scrollState }) {
   return (
     <Canvas
       shadows
@@ -30,7 +30,7 @@ export default function Scene({ scrollProgress }) {
 
       <Suspense fallback={null}>
         <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-          <FloatingIsland scrollProgress={scrollProgress} />
+          <FloatingIsland scrollState={scrollState} />
         </Float>
         
         <ParticleField />
@@ -46,7 +46,7 @@ export default function Scene({ scrollProgress }) {
         />
       </Suspense>
 
-      <ScrollRig scrollProgress={scrollProgress} />
+      <ScrollRig scrollState={scrollState} />
 
       {/* Post-Processing */}
       <EffectComposer disableNormalPass>

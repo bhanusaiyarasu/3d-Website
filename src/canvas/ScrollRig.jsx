@@ -2,13 +2,14 @@ import { useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-export default function ScrollRig({ scrollProgress = 0 }) {
+export default function ScrollRig({ scrollState }) {
   const { camera } = useThree();
   const targetPos = useRef(new THREE.Vector3(0, 2, 8));
   const targetLookAt = useRef(new THREE.Vector3(0, 0, 0));
 
   useFrame(() => {
     // Define camera path based on scroll
+    const scrollProgress = scrollState?.progress || 0;
     const t = scrollProgress;
 
     // Camera spirals around and zooms in as user scrolls
