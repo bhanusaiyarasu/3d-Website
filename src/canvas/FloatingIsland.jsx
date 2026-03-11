@@ -48,12 +48,12 @@ export default function FloatingIsland({ scrollState }) {
     const scrollProgress = scrollState?.progress || 0;
 
     if (groupRef.current) {
-      // Scroll-driven rotation and zoom
-      groupRef.current.rotation.y = t * 0.08 + scrollProgress * Math.PI * 2;
+      // Scroll-driven rotation and zoom - SUPERCHARGED
+      groupRef.current.rotation.y = t * 0.08 + scrollProgress * Math.PI * 4;
       groupRef.current.position.y = Math.sin(t * 0.3) * 0.15;
 
-      // Scroll zoom: move closer as user scrolls
-      const zoomZ = THREE.MathUtils.lerp(0, -1, scrollProgress);
+      // Scroll zoom: move closer and deeper as user scrolls
+      const zoomZ = THREE.MathUtils.lerp(0.5, -2, scrollProgress);
       groupRef.current.position.z = zoomZ;
     }
 

@@ -12,9 +12,9 @@ export default function ScrollRig({ scrollState }) {
     const scrollProgress = scrollState?.progress || 0;
     const t = scrollProgress;
 
-    // Camera spirals around and zooms in as user scrolls
-    const angle = t * Math.PI * 1.5;
-    const radius = THREE.MathUtils.lerp(8, 4, t);
+    // Camera spirals around and zooms in as user scrolls - SUPERCHARGED
+    const angle = t * Math.PI * 3.5;
+    const radius = THREE.MathUtils.lerp(8, 2.5, t);
     const height = THREE.MathUtils.lerp(3, 1.5, Math.min(t * 2, 1));
 
     targetPos.current.set(
