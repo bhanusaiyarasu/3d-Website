@@ -58,8 +58,8 @@ export default function FloatingIsland({ scrollState }) {
     }
 
     if (islandRef.current) {
-      // LOCAL ROTATION: The island spins on its own axis independently
-      islandRef.current.rotation.y = t * 0.2 + scrollProgress * Math.PI * 2;
+      // LOCAL ROTATION: The island spins on its own axis independently - INCREASED INTENSITY
+      islandRef.current.rotation.y = t * 0.6 + scrollProgress * Math.PI * 4;
     }
 
     // Pulsing glow

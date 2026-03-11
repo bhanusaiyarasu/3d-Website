@@ -14,25 +14,30 @@ export default function Navbar() {
 
   return (
     <nav className={`navbar ${isOpen ? 'navbar--open' : ''}`}>
-      <Link to="/" className="navbar__logo" onClick={() => setIsOpen(false)}>⟁ PORTFOLIO</Link>
+      <Link to="/" className="navbar__logo" onClick={() => setIsOpen(false)}>
+        ⟁ PORTFOLIO
+      </Link>
       
-      {/* Hamburger Toggle */}
+      {/* Mobile Overlay Background - Reset blend mode here */}
+      <div className={`navbar__mobile-overlay ${isOpen ? 'navbar__mobile-overlay--open' : ''}`}>
+        <ul className="navbar__links">
+          {links.map((link) => (
+            <NavLink 
+              key={link.label} 
+              {...link} 
+              closeMenu={() => setIsOpen(false)} 
+            />
+          ))}
+        </ul>
+      </div>
+      
+      {/* Hamburger Toggle - Stays on top */}
       <button className="navbar__toggle" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Menu">
         <div className="hamburger">
           <span className="hamburger__line line-1"></span>
           <span className="hamburger__line line-2"></span>
         </div>
       </button>
-
-      <ul className="navbar__links">
-        {links.map((link) => (
-          <NavLink 
-            key={link.label} 
-            {...link} 
-            closeMenu={() => setIsOpen(false)} 
-          />
-        ))}
-      </ul>
     </nav>
   );
 }
