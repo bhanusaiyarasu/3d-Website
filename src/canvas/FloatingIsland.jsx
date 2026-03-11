@@ -4,6 +4,7 @@ import * as THREE from 'three';
 
 export default function FloatingIsland({ scrollState }) {
   const groupRef = useRef();
+  const islandRef = useRef(); // Reference for local rotation
   const glowRef = useRef();
   const orbitsRef = useRef();
 
@@ -48,13 +49,17 @@ export default function FloatingIsland({ scrollState }) {
     const scrollProgress = scrollState?.progress || 0;
 
     if (groupRef.current) {
-      // Scroll-driven rotation and zoom - SUPERCHARGED
-      groupRef.current.rotation.y = t * 0.08 + scrollProgress * Math.PI * 4;
+      // Orbital rotation and zoom
+      groupRef.current.rotation.y = t * 0.05 + scrollProgress * Math.PI * 4;
       groupRef.current.position.y = Math.sin(t * 0.3) * 0.15;
 
-      // Scroll zoom: move closer and deeper as user scrolls
       const zoomZ = THREE.MathUtils.lerp(0.5, -2, scrollProgress);
       groupRef.current.position.z = zoomZ;
+    }
+
+    if (islandRef.current) {
+      // LOCAL ROTATION: The island spins on its own axis independently
+      islandRef.current.rotation.y = t * 0.2 + scrollProgress * Math.PI * 2;
     }
 
     // Pulsing glow
@@ -79,8 +84,8 @@ export default function FloatingIsland({ scrollState }) {
 
   return (
     <group ref={groupRef}>
-      {/* Main island body */}
-      <mesh geometry={islandGeo} castShadow receiveShadow>
+      {/* Main island body with LOCAL rotation ref */}
+      <mesh ref={islandRef} geometry={islandGeo} castShadow receiveShadow>
         <meshStandardMaterial
           color="#1a1a2e"
           roughness={0.6}

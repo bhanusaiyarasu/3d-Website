@@ -1,6 +1,6 @@
 import { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, PerspectiveCamera, MeshDistortMaterial, Sphere, Environment } from '@react-three/drei';
+import { Float, PerspectiveCamera, MeshDistortMaterial, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import Contact from '../sections/Contact';
 

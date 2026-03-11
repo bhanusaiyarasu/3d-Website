@@ -29,7 +29,6 @@ export default function Navbar() {
           <NavLink 
             key={link.label} 
             {...link} 
-            isHome={pathname === '/'}
             closeMenu={() => setIsOpen(false)} 
           />
         ))}
@@ -38,20 +37,8 @@ export default function Navbar() {
   );
 }
 
-function NavLink({ label, href, id, isHome, closeMenu }) {
+function NavLink({ label, href, closeMenu }) {
   const { ref, handleMouseMove, handleMouseLeave } = useMagnetic(0.2);
-  const navigate = useNavigate();
-
-  const handleClick = (e) => {
-    closeMenu();
-    if (isHome && id) {
-      const element = document.getElementById(id);
-      if (element) {
-        e.preventDefault();
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
 
   return (
     <li className="navbar__item">
@@ -61,13 +48,14 @@ function NavLink({ label, href, id, isHome, closeMenu }) {
         className="navbar__link"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        onClick={handleClick}
+        onClick={closeMenu}
       >
         {label}
       </Link>
     </li>
   );
 }
+
 
 
 
