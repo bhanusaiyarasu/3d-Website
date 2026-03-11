@@ -18,6 +18,7 @@ import Scene from './canvas/Scene';
 import Home from './pages/Home';
 import Work from './pages/Work';
 import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -127,6 +128,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/work" element={<Work />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
           </Routes>
 
           <footer className="footer" style={{ padding: '4rem 2rem', textAlign: 'center', borderTop: '1px solid rgba(255,255,255,0.05)' }}>

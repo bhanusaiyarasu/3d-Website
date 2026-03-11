@@ -15,7 +15,8 @@ export default function Work() {
       
       <BentoGrid />
       
-      <section style={{ height: '20vh' }} />
+      <section style={{ height: '10vh' }} />
     </div>
   );
 }
+
