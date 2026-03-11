@@ -9,7 +9,8 @@ export default function FloatingIsland({ scrollState }) {
 
   // Procedural island geometry with noise displacement
   const islandGeo = useMemo(() => {
-    const geo = new THREE.CylinderGeometry(2.2, 1.6, 1.2, 32, 8);
+    // Increased segments for maximum smoothness and clarity
+    const geo = new THREE.CylinderGeometry(2.2, 1.6, 1.2, 64, 16);
     const pos = geo.attributes.position;
     for (let i = 0; i < pos.count; i++) {
       const x = pos.getX(i);
@@ -58,7 +59,7 @@ export default function FloatingIsland({ scrollState }) {
 
     // Pulsing glow
     if (glowRef.current) {
-      glowRef.current.material.opacity = 0.15 + Math.sin(t * 1.5) * 0.05;
+      glowRef.current.material.opacity = 0.2 + Math.sin(t * 1.5) * 0.08;
     }
 
     // Animate orbiting objects
@@ -82,60 +83,60 @@ export default function FloatingIsland({ scrollState }) {
       <mesh geometry={islandGeo} castShadow receiveShadow>
         <meshStandardMaterial
           color="#1a1a2e"
-          roughness={0.7}
-          metalness={0.3}
+          roughness={0.6}
+          metalness={0.4}
           emissive="#0a0e1a"
-          emissiveIntensity={0.1}
+          emissiveIntensity={0.2}
         />
       </mesh>
 
       {/* Top surface with grass-like glow */}
       <mesh position={[0, 0.55, 0]}>
-        <cylinderGeometry args={[2.1, 2.1, 0.1, 32]} />
+        <cylinderGeometry args={[2.1, 2.1, 0.1, 64]} />
         <meshStandardMaterial
-          color="#0d3320"
-          roughness={0.9}
+          color="#102a43"
+          roughness={0.8}
           emissive="#00f0ff"
-          emissiveIntensity={0.05}
+          emissiveIntensity={0.15}
         />
       </mesh>
 
       {/* Neon edge glow ring */}
       <mesh ref={glowRef} position={[0, 0.3, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[2.15, 0.03, 8, 64]} />
-        <meshBasicMaterial color="#00f0ff" transparent opacity={0.2} />
+        <torusGeometry args={[2.15, 0.02, 16, 128]} />
+        <meshBasicMaterial color="#00f0ff" transparent opacity={0.3} />
       </mesh>
 
       {/* Small structures on top */}
       {/* Tower 1 */}
       <mesh position={[-0.5, 1.1, 0.3]}>
         <boxGeometry args={[0.25, 0.8, 0.25]} />
-        <meshStandardMaterial color="#16213e" emissive="#a855f7" emissiveIntensity={0.15} />
+        <meshStandardMaterial color="#16213e" emissive="#a855f7" emissiveIntensity={0.3} />
       </mesh>
       <mesh position={[-0.5, 1.55, 0.3]}>
         <coneGeometry args={[0.2, 0.3, 4]} />
-        <meshStandardMaterial color="#ff2d7b" emissive="#ff2d7b" emissiveIntensity={0.3} />
+        <meshStandardMaterial color="#ff2d7b" emissive="#ff2d7b" emissiveIntensity={0.5} />
       </mesh>
 
       {/* Tower 2 */}
       <mesh position={[0.7, 0.95, -0.4]}>
         <boxGeometry args={[0.2, 0.6, 0.2]} />
-        <meshStandardMaterial color="#16213e" emissive="#00f0ff" emissiveIntensity={0.15} />
+        <meshStandardMaterial color="#16213e" emissive="#00f0ff" emissiveIntensity={0.3} />
       </mesh>
 
       {/* Tree-like structure */}
       <mesh position={[0, 0.9, 0.8]}>
-        <cylinderGeometry args={[0.03, 0.05, 0.5, 8]} />
+        <cylinderGeometry args={[0.03, 0.05, 0.5, 12]} />
         <meshStandardMaterial color="#3d2b1f" />
       </mesh>
       <mesh position={[0, 1.25, 0.8]}>
-        <sphereGeometry args={[0.25, 8, 8]} />
+        <sphereGeometry args={[0.25, 12, 12]} />
         <meshStandardMaterial
           color="#ffb7c5"
           emissive="#ffb7c5"
-          emissiveIntensity={0.2}
+          emissiveIntensity={0.3}
           transparent
-          opacity={0.85}
+          opacity={0.9}
         />
       </mesh>
 
