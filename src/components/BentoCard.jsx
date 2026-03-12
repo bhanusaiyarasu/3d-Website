@@ -1,73 +1,57 @@
 import { useRef } from 'react';
+import gsap from 'gsap';
 import { useTilt } from '../hooks/useTilt';
 
-export default function BentoCard({ 
-  title, 
-  description, 
-  tags, 
-  className = '', 
-  color = 'var(--neon-cyan)',
-  icon = '⟁'
-}) {
-  const { ref, handleMouseMove, handleMouseLeave } = useTilt(10);
+export default function BentoCard({ title, description, tags, color, icon }) {
+  const { ref: tiltRef, handleMouseMove, handleMouseLeave } = useTilt(12);
+  const shineRef = useRef(null);
+
+  const handleMouse = (e) => {
+    handleMouseMove(e);
+    // Position shine effect
+    if (shineRef.current) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      shineRef.current.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.12) 0%, transparent 60%)`;
+    }
+  };
+
+  const handleLeave = (e) => {
+    handleMouseLeave(e);
+    if (shineRef.current) {
+      shineRef.current.style.background = 'transparent';
+    }
+  };
 
   return (
-    <div 
-      ref={ref}
-      className={`bento-card glass ${className}`}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        '--card-glow': color,
-        position: 'relative',
-        overflow: 'hidden',
-        borderRadius: 'var(--radius-lg)',
-        padding: 'var(--space-lg)',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        transition: 'box-shadow 0.3s ease',
-      }}
+    <div
+      ref={tiltRef}
+      className="bento-card glass"
+      onMouseMove={handleMouse}
+      onMouseLeave={handleLeave}
+      style={{ '--card-accent': color }}
     >
-      <div 
-        className="bento-card__glow"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: `radial-gradient(circle at center, ${color}11, transparent)`,
-          pointerEvents: 'none'
-        }}
-      />
+      {/* Shine glare overlay */}
+      <div ref={shineRef} className="bento-card__shine" />
       
-      <div className="bento-card__icon" style={{ 
-        position: 'absolute', 
-        top: 'var(--space-lg)', 
-        right: 'var(--space-lg)', 
-        fontSize: '2rem', 
-        opacity: 0.2,
-        color: color
-      }}>
-        {icon}
+      <div className="bento-card__icon">{icon}</div>
+      <h3 className="bento-card__title font-display" style={{ color }}>{title}</h3>
+      <p className="bento-card__desc">{description}</p>
+      <div className="bento-card__tags">
+        {tags.map(tag => (
+          <span key={tag} className="bento-card__tag" style={{ borderColor: `${color}33`, color }}>{tag}</span>
+        ))}
       </div>
-
-      <div className="bento-card__content" style={{ position: 'relative', zIndex: 2 }}>
-        <p className="font-display" style={{ fontSize: '0.6rem', color: color, marginBottom: '0.5rem', letterSpacing: '0.2em' }}>
-          {tags?.join(' / ')}
-        </p>
-        <h3 className="font-display" style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{title}</h3>
-        <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>{description}</p>
+      <div className="bento-card__actions">
+        <a href="#" className="bento-card__action" style={{ color }}>
+          LIVE DEMO <span>→</span>
+        </a>
+        <a href="#" className="bento-card__action" style={{ color }}>
+          GITHUB <span>→</span>
+        </a>
       </div>
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        .bento-card:hover {
-          box-shadow: 0 0 40px -10px var(--card-glow);
-          border-color: var(--card-glow);
-        }
-      `}} />
+      <div className="bento-card__border-glow" style={{ boxShadow: `0 0 20px ${color}33, 0 0 60px ${color}11` }} />
     </div>
   );
 }
