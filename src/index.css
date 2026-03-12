@@ -160,7 +160,7 @@ body::after {
 }
 
 .canvas-container canvas {
-  pointer-events: all;
+  pointer-events: auto;
 }
 
 .content-overlay {
@@ -172,7 +172,7 @@ body::after {
 .content-overlay > section,
 .content-overlay > div,
 .content-overlay > footer {
-  pointer-events: all;
+  pointer-events: auto;
 }
 
 /* ── Section defaults ───────────────────────────────────── */
@@ -205,13 +205,14 @@ section {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 1000; /* Increased to stay above content */
   padding: var(--space-md) var(--space-lg);
   display: flex;
   align-items: center;
   justify-content: space-between;
   mix-blend-mode: difference;
   transition: backdrop-filter 0.3s, background 0.3s;
+  pointer-events: auto; /* Explicitly interactive */
 }
 
 .navbar--scrolled {
@@ -1450,6 +1451,7 @@ section {
     justify-content: center;
     visibility: hidden;
     opacity: 0;
+    pointer-events: none; /* Block clicks when hidden */
     mix-blend-mode: normal;
     transition: opacity 0.4s ease, visibility 0.4s ease;
   }
@@ -1457,6 +1459,7 @@ section {
   .navbar__mobile-overlay--open {
     visibility: visible;
     opacity: 1;
+    pointer-events: auto; /* Enable clicks when open */
   }
 
   .navbar__links {
