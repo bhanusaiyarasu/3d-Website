@@ -50,6 +50,18 @@ export default function Navbar() {
       <Link to="/" className="navbar__logo" onClick={() => setIsOpen(false)}>
         <span className="navbar__logo-icon">⟁</span> PORTFOLIO
       </Link>
+
+      {/* Desktop links — always visible on desktop */}
+      <ul className="navbar__links navbar__links--desktop">
+        {links.map((link) => (
+          <NavLink 
+            key={link.label} 
+            {...link}
+            isActive={pathname === link.href}
+            closeMenu={() => {}} 
+          />
+        ))}
+      </ul>
       
       {/* Mobile Overlay */}
       <div ref={overlayRef} className={`navbar__mobile-overlay ${isOpen ? 'navbar__mobile-overlay--open' : ''}`}>

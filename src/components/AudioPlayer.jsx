@@ -1,10 +1,12 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
+import gsap from 'gsap';
 
 export default function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioContextRef = useRef(null);
   const oscillatorsRef = useRef([]);
   const gainNodeRef = useRef(null);
+  const barsRef = useRef([]);
 
   // Create a lo-fi ambient drone using Web Audio API
   const initAudio = useCallback(() => {
@@ -114,27 +116,29 @@ export default function AudioPlayer() {
     }
   }, [isPlaying, initAudio]);
 
-  // Play click sound effect
+  // Animate bars when playing
   useEffect(() => {
-    const playClick = () => {
-      if (!audioContextRef.current) return;
-      const ctx = audioContextRef.current;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = 800 + Math.random() * 400;
-      gain.gain.value = 0.04;
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.08);
+    if (!isPlaying) return;
+
+    const animateBars = () => {
+      barsRef.current.forEach((bar) => {
+        if (!bar) return;
+        const h = 4 + Math.random() * 16;
+        gsap.to(bar, { height: h, duration: 0.15 + Math.random() * 0.1, ease: 'power1.out' });
+      });
     };
 
-    const interactives = document.querySelectorAll('a, button, .project-card');
-    interactives.forEach((el) => el.addEventListener('click', playClick));
-    return () => interactives.forEach((el) => el.removeEventListener('click', playClick));
-  }, []);
+    const interval = setInterval(animateBars, 180);
+    animateBars();
+
+    return () => {
+      clearInterval(interval);
+      // Reset bars
+      barsRef.current.forEach((bar) => {
+        if (bar) gsap.to(bar, { height: bar.dataset.default, duration: 0.3 });
+      });
+    };
+  }, [isPlaying]);
 
   return (
     <button
@@ -142,12 +146,13 @@ export default function AudioPlayer() {
       onClick={toggleAudio}
       aria-label={isPlaying ? 'Mute audio' : 'Play audio'}
       title={isPlaying ? 'Mute' : 'Play ambient audio'}
+      style={{ cursor: 'pointer' }}
     >
       <div className="audio-toggle__bars">
-        <span className="audio-toggle__bar" style={{ height: '8px' }} />
-        <span className="audio-toggle__bar" style={{ height: '14px' }} />
-        <span className="audio-toggle__bar" style={{ height: '6px' }} />
-        <span className="audio-toggle__bar" style={{ height: '12px' }} />
+        <span ref={el => barsRef.current[0] = el} className="audio-toggle__bar" data-default="8" style={{ height: '8px' }} />
+        <span ref={el => barsRef.current[1] = el} className="audio-toggle__bar" data-default="14" style={{ height: '14px' }} />
+        <span ref={el => barsRef.current[2] = el} className="audio-toggle__bar" data-default="6" style={{ height: '6px' }} />
+        <span ref={el => barsRef.current[3] = el} className="audio-toggle__bar" data-default="12" style={{ height: '12px' }} />
       </div>
     </button>
   );

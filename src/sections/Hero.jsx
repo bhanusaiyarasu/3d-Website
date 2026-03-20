@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { Link } from 'react-router-dom';
@@ -15,8 +15,75 @@ const FLOATING_BADGES = [
   { label: 'R3F', x: '78%', y: '40%', delay: 2.0 },
 ];
 
+function Typewriter({ texts, speed = 80, pause = 2000 }) {
+  const [display, setDisplay] = useState('');
+  const [textIdx, setTextIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = texts[textIdx];
+    let timeout;
+
+    if (!deleting && charIdx < current.length) {
+      timeout = setTimeout(() => setCharIdx(c => c + 1), speed);
+    } else if (!deleting && charIdx === current.length) {
+      timeout = setTimeout(() => setDeleting(true), pause);
+    } else if (deleting && charIdx > 0) {
+      timeout = setTimeout(() => setCharIdx(c => c - 1), speed / 2);
+    } else if (deleting && charIdx === 0) {
+      setDeleting(false);
+      setTextIdx(i => (i + 1) % texts.length);
+    }
+
+    setDisplay(current.slice(0, charIdx));
+    return () => clearTimeout(timeout);
+  }, [charIdx, deleting, textIdx, texts, speed, pause]);
+
+  return (
+    <span>
+      {display}
+      <span className="typewriter-cursor">|</span>
+    </span>
+  );
+}
+
 export default function Hero() {
   const containerRef = useRef(null);
+  const badgesRef = useRef([]);
+
+  // Mouse parallax for floating badges
+  useEffect(() => {
+    const handleMouse = (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      
+      badgesRef.current.forEach((badge, i) => {
+        if (!badge) return;
+        const factor = (i + 1) * 8;
+        gsap.to(badge, {
+          x: -x * factor,
+          y: -y * factor,
+          duration: 0.8,
+          ease: 'power2.out',
+        });
+      });
+
+      // Parallax orbs
+      document.querySelectorAll('.hero__orb').forEach((orb, i) => {
+        const factor = (i + 1) * 15;
+        gsap.to(orb, {
+          x: x * factor,
+          y: y * factor,
+          duration: 1.2,
+          ease: 'power2.out',
+        });
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouse);
+    return () => window.removeEventListener('mousemove', handleMouse);
+  }, []);
 
   useGSAP(() => {
     const tl = gsap.timeline();
@@ -102,6 +169,24 @@ export default function Hero() {
     });
   };
 
+  // Magnetic ripple CTA
+  const handleCtaMouseMove = (e) => {
+    const btn = e.currentTarget;
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    gsap.to(btn, {
+      x: x * 0.3,
+      y: y * 0.3,
+      duration: 0.3,
+      ease: 'power2.out',
+    });
+  };
+
+  const handleCtaMouseLeave = (e) => {
+    gsap.to(e.currentTarget, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+  };
+
   return (
     <section id="hero" className="hero" ref={containerRef}>
       {/* Holographic scan-line overlay */}
@@ -112,10 +197,11 @@ export default function Hero() {
       <div className="hero__orb hero__orb--2" />
       <div className="hero__orb hero__orb--3" />
 
-      {/* Floating tech badges */}
-      {FLOATING_BADGES.map((badge) => (
+      {/* Floating tech badges with parallax */}
+      {FLOATING_BADGES.map((badge, i) => (
         <div
           key={badge.label}
+          ref={el => badgesRef.current[i] = el}
           className="hero__badge glass"
           style={{ left: badge.x, top: badge.y }}
         >
@@ -134,13 +220,26 @@ export default function Hero() {
         </span>
       </h1>
       <p className="hero__tagline">
-        Creative Developer & 3D Artist. Crafting immersive digital 
-        experiences at the intersection of imagination and code.
+        <Typewriter
+          texts={[
+            'Creative Developer & 3D Artist.',
+            'Crafting immersive digital experiences.',
+            'Where imagination meets code.',
+            'Building the future of the web.',
+          ]}
+          speed={60}
+          pause={2500}
+        />
       </p>
 
-      {/* CTA Button */}
+      {/* CTA Button with magnetic effect */}
       <div className="hero__cta" style={{ marginTop: '2rem' }}>
-        <Link to="/work" className="magnetic-btn hero__cta-btn">
+        <Link
+          to="/work"
+          className="magnetic-btn hero__cta-btn"
+          onMouseMove={handleCtaMouseMove}
+          onMouseLeave={handleCtaMouseLeave}
+        >
           <span>EXPLORE WORK</span>
           <span className="hero__cta-arrow">→</span>
         </Link>

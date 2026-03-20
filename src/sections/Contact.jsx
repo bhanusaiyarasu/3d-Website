@@ -52,18 +52,21 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSending(true);
-    // Simulate send
-    setTimeout(() => {
-      setSending(false);
-      setSent(true);
-      setFormState({ name: '', email: '', message: '' });
-      setTimeout(() => setSent(false), 3000);
-    }, 1500);
+    
+    // Create mailto link
+    const subject = encodeURIComponent('Contact from 3d-Website');
+    const body = encodeURIComponent(`Name: ${formState.name}\nEmail: ${formState.email}\n\nMessage:\n${formState.message}`);
+    window.location.href = `mailto:bhanusaiyarasu@gmail.com?subject=${subject}&body=${body}`;
+
+    setSending(false);
+    setSent(true);
+    setFormState({ name: '', email: '', message: '' });
+    setTimeout(() => setSent(false), 3000);
   };
 
   const socials = [
-    { name: 'GITHUB', href: 'https://github.com' },
-    { name: 'LINKEDIN', href: 'https://linkedin.com' },
+    { name: 'GITHUB', href: 'https://github.com/bhanusaiyarasu/' },
+    { name: 'LINKEDIN', href: 'https://www.linkedin.com/in/bhanu-sai-yarasu-9a8591357' },
     { name: 'TWITTER', href: 'https://twitter.com' },
     { name: 'INSTAGRAM', href: 'https://instagram.com' },
   ];

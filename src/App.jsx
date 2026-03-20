@@ -30,42 +30,83 @@ const scrollState = {
 
 function PageTransition() {
   const { pathname } = useLocation();
-  const overlayRef = useRef(null);
+  const topRef = useRef(null);
+  const bottomRef = useRef(null);
+  const textRef = useRef(null);
 
   useGSAP(() => {
     const tl = gsap.timeline();
-    
-    // Fade out/in sequence
-    tl.to(overlayRef.current, {
-      opacity: 1,
-      duration: 0.4,
-      ease: 'power2.inOut',
-      onComplete: () => {
+
+    // Split panels slide in from top/bottom
+    tl.set([topRef.current, bottomRef.current], { scaleY: 0 })
+      .set(textRef.current, { opacity: 0, scale: 0.8 })
+      .to(topRef.current, {
+        scaleY: 1,
+        duration: 0.45,
+        ease: 'power4.inOut',
+      })
+      .to(bottomRef.current, {
+        scaleY: 1,
+        duration: 0.45,
+        ease: 'power4.inOut',
+      }, '<0.05')
+      .to(textRef.current, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.25,
+        ease: 'back.out(2)',
+      }, '-=0.15')
+      .call(() => {
         window.scrollTo(0, 0);
         ScrollTrigger.refresh();
-      }
-    })
-    .to(overlayRef.current, {
-      opacity: 0,
-      duration: 0.6,
-      ease: 'power2.inOut',
-      delay: 0.1
-    });
+      })
+      .to(textRef.current, {
+        opacity: 0,
+        scale: 1.2,
+        duration: 0.2,
+        ease: 'power2.in',
+        delay: 0.1
+      })
+      .to(topRef.current, {
+        scaleY: 0,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      })
+      .to(bottomRef.current, {
+        scaleY: 0,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      }, '<0.05');
   }, [pathname]);
 
+  const panelStyle = {
+    position: 'fixed',
+    left: 0,
+    width: '100%',
+    height: '50vh',
+    zIndex: 9999,
+    pointerEvents: 'none',
+    background: 'linear-gradient(180deg, #0a0e1a 0%, #111827 100%)',
+  };
+
   return (
-    <div 
-      ref={overlayRef} 
-      className="page-transition-overlay" 
-      style={{
+    <>
+      <div ref={topRef} style={{ ...panelStyle, top: 0, transformOrigin: 'top', scaleY: 0, borderBottom: '2px solid var(--neon-cyan)', boxShadow: '0 2px 30px rgba(0,240,255,0.3)' }} />
+      <div ref={bottomRef} style={{ ...panelStyle, bottom: 0, top: 'auto', transformOrigin: 'bottom', scaleY: 0, borderTop: '2px solid var(--neon-pink)', boxShadow: '0 -2px 30px rgba(255,45,123,0.3)' }} />
+      <div ref={textRef} className="font-display" style={{
         position: 'fixed',
-        inset: 0,
-        backgroundColor: 'var(--bg-deep)',
-        zIndex: 9999,
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 10000,
         pointerEvents: 'none',
-        opacity: 0
-      }}
-    />
+        fontSize: 'clamp(1rem, 3vw, 1.8rem)',
+        letterSpacing: '0.5em',
+        color: 'var(--neon-cyan)',
+        textShadow: '0 0 30px rgba(0,240,255,0.6), 0 0 60px rgba(0,240,255,0.3)',
+        opacity: 0,
+      }}>⟁</div>
+    </>
   );
 }
 

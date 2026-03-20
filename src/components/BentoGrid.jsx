@@ -8,7 +8,9 @@ export default function BentoGrid() {
       tags: ['THREE.JS', 'WEBGL'],
       color: 'var(--neon-cyan)',
       className: 'bento-1',
-      icon: '⚡'
+      icon: '⚡',
+      demoUrl: '#',
+      repoUrl: 'https://github.com/bhanusaiyarasu/3d-Website'
     },
     {
       title: 'SAKURA OS',
@@ -16,7 +18,9 @@ export default function BentoGrid() {
       tags: ['REACT', 'GSAP'],
       color: 'var(--neon-pink)',
       className: 'bento-2',
-      icon: '🌸'
+      icon: '🌸',
+      demoUrl: '#',
+      repoUrl: 'https://github.com/bhanusaiyarasu'
     },
     {
       title: 'VOID ENGINE',
@@ -24,7 +28,9 @@ export default function BentoGrid() {
       tags: ['RUST', 'WGPU'],
       color: 'var(--violet)',
       className: 'bento-3',
-      icon: '⟁'
+      icon: '⟁',
+      demoUrl: '#',
+      repoUrl: 'https://github.com/bhanusaiyarasu'
     },
     {
       title: 'PULSE',
@@ -32,7 +38,9 @@ export default function BentoGrid() {
       tags: ['WEBRTC', 'AUDIO'],
       color: 'var(--gold)',
       className: 'bento-4',
-      icon: '〰'
+      icon: '〰',
+      demoUrl: '#',
+      repoUrl: 'https://github.com/bhanusaiyarasu'
     },
   ];
 

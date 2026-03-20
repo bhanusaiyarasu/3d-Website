@@ -1,5 +1,6 @@
 import Hero from '../sections/Hero';
 import About from '../sections/About';
+import Skills from '../sections/Skills';
 import VideoPortal from '../components/VideoPortal';
 import BentoGrid from '../components/BentoGrid';
 import Contact from '../sections/Contact';
@@ -13,6 +14,8 @@ export default function Home() {
       <Hero />
       
       <About />
+
+      <Skills />
 
       {/* Philosophy Section */}
       <section className="philosophy-section" style={{ padding: '0 var(--space-lg)', maxWidth: '800px', margin: '0 auto 4vh auto', textAlign: 'center' }}>
@@ -50,3 +53,4 @@ export default function Home() {
     </div>
   );
 }
+

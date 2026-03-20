@@ -1,9 +1,12 @@
 import About from '../sections/About';
+import Skills from '../sections/Skills';
 
 export default function AboutPage() {
   return (
     <div className="page-about" style={{ paddingTop: '10vh' }}>
       <About />
+
+      <Skills />
       
       <section className="story-extra" style={{ padding: '0 var(--space-lg)', maxWidth: '800px', margin: '10vh auto', textAlign: 'center' }}>
         <h3 className="font-display" style={{ color: 'var(--neon-cyan)', marginBottom: '2rem', letterSpacing: '0.3em' }}>THE PHILOSOPHY</h3>
