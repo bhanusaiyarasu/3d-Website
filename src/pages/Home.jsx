@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Hero from '../sections/Hero';
 import About from '../sections/About';
 import Skills from '../sections/Skills';
@@ -9,6 +10,10 @@ import SmoothMarquee from '../components/SmoothMarquee';
 const SHOWCASE_WORDS = ['CREATIVE', 'DEVELOPER', 'DESIGNER', 'DREAMER', 'BUILDER', 'INNOVATOR'];
 
 export default function Home() {
+  useEffect(() => {
+    document.title = "Bhanu Sai Yarasu | Creative Developer & 3D Web Artist";
+  }, []);
+
   return (
     <div className="page-home">
       <Hero />

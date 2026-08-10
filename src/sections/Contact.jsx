@@ -47,21 +47,41 @@ export default function Contact() {
       ease: 'power3.out',
       scrollTrigger: { trigger: '.contact__socials', start: 'top 95%' }
     });
+
+    ScrollTrigger.refresh();
   }, { scope: containerRef });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
     
-    // Create mailto link
-    const subject = encodeURIComponent('Contact from 3d-Website');
-    const body = encodeURIComponent(`Name: ${formState.name}\nEmail: ${formState.email}\n\nMessage:\n${formState.message}`);
-    window.location.href = `mailto:bhanusaiyarasu@gmail.com?subject=${subject}&body=${body}`;
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/bhanusaiyarasu07@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          message: formState.message,
+          _subject: "New Message from Portfolio Website"
+        })
+      });
 
-    setSending(false);
-    setSent(true);
-    setFormState({ name: '', email: '', message: '' });
-    setTimeout(() => setSent(false), 3000);
+      if (response.ok) {
+        setSent(true);
+        setFormState({ name: '', email: '', message: '' });
+      } else {
+        console.error("Form submission failed");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setSending(false);
+      setTimeout(() => setSent(false), 3000);
+    }
   };
 
   const socials = [

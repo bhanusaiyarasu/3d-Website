@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
 import About from '../sections/About';
 import Skills from '../sections/Skills';
 
 export default function AboutPage() {
+  useEffect(() => {
+    document.title = "About Me | Bhanu Sai Yarasu";
+  }, []);
+
   return (
     <div className="page-about" style={{ paddingTop: '10vh' }}>
       <About />

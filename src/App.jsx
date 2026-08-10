@@ -76,7 +76,10 @@ function PageTransition() {
         scaleY: 0,
         duration: 0.5,
         ease: 'power4.inOut',
-      }, '<0.05');
+      }, '<0.05')
+      .call(() => {
+        ScrollTrigger.refresh();
+      });
   }, [pathname]);
 
   const panelStyle = {
@@ -155,7 +158,7 @@ export default function App() {
       <div className="app-wrapper">
         <ScrollManager />
         <PageTransition />
-        <Loader onComplete={() => setLoaded(true)} />
+        {!loaded && <Loader onComplete={() => setLoaded(true)} />}
         <Cursor />
         <Navbar />
         <AudioPlayer />

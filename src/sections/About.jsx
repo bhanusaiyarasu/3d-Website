@@ -8,13 +8,13 @@ import SmoothMarquee from '../components/SmoothMarquee';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SKILLS = ['REACT', 'THREE.JS', 'GSAP', 'WEBGL', 'NODE.JS', 'FIGMA', 'BLENDER', 'TYPESCRIPT', 'VITE', 'GLSL'];
+const SKILLS = ['REACT', 'THREE.JS', 'GSAP', 'WEBGL', 'NODE.JS', 'PLAYWRIGHT', 'TYPESCRIPT', 'VITE', 'GLSL'];
 
 const TIMELINE = [
-  { year: '2022', title: 'Started Web Dev', desc: 'Dove into HTML, CSS, JavaScript — building day and night.' },
-  { year: '2023', title: 'Frontend Engineer', desc: 'Mastered React, animations, and performance optimization.' },
-  { year: '2024', title: '3D & Creative Dev', desc: 'Entered the world of Three.js, shaders, and immersive web.' },
-  { year: '2025', title: 'Freelance & Beyond', desc: 'Building award-worthy digital experiences for clients worldwide.' },
+  { year: '2023', title: 'Software Career Begins', desc: 'Started my journey in software, learning core programming principles and systems.' },
+  { year: '2024', title: 'Web Fundamentals', desc: 'Dove into HTML, CSS, and core web development concepts.' },
+  { year: '2025', title: 'Web & App Development', desc: 'Built an Android app integrated with deep learning models, fusing AI with mobile development.' },
+  { year: '2026', title: 'Freelancing & Modern Stack', desc: 'Mastered React, WordPress, Git, and deployment (Vercel/Netlify/Render). Handed over 2 client projects.' },
 ];
 
 export default function About() {
@@ -74,7 +74,7 @@ export default function About() {
         </h2>
         
         <p className="about__text">
-          I'm a multidisciplinary developer specializing in high-performance WebGL 
+          I am <strong>Bhanu Sai Yarasu</strong>, a multidisciplinary developer specializing in high-performance WebGL 
           experiences. My work blends cinematic storytelling with cutting-edge 
           frontend engineering to create websites that don't just work—they inspire.
         </p>
@@ -82,13 +82,13 @@ export default function About() {
         <div className="about__stats">
           <div className="about__stat">
             <div className="about__stat-value text-gradient">
-              <AnimatedCounter target={50} suffix="+" />
+              <AnimatedCounter target={8} suffix="+" />
             </div>
             <div className="about__stat-label">Projects</div>
           </div>
           <div className="about__stat">
             <div className="about__stat-value text-gradient">
-              <AnimatedCounter target={4} suffix="yrs" />
+              <AnimatedCounter target={2} suffix="yrs" />
             </div>
             <div className="about__stat-label">Experience</div>
           </div>

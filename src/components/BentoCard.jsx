@@ -65,7 +65,7 @@ export default function BentoCard({ title, description, tags, color, icon, demoU
           </a>
         )}
         {repoUrl && (
-          <a href={"www.github.com/bhanusaiyarasu"} target="_blank" rel="noopener noreferrer" className="bento-card__action" style={{ color }}>
+          <a href={repoUrl} target="_blank" rel="noopener noreferrer" className="bento-card__action" style={{ color }}>
             GITHUB <span>→</span>
           </a>
         )}

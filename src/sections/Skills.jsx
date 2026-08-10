@@ -12,34 +12,34 @@ const SKILL_CATEGORIES = [
     color: 'var(--neon-cyan)',
     skills: [
       { name: 'React', level: 90 },
-      { name: 'JavaScript', level: 95 },
-      { name: 'TypeScript', level: 80 },
+      { name: 'WordPress', level: 85 },
+      { name: 'JavaScript', level: 92 },
       { name: 'HTML/CSS', level: 95 },
-      { name: 'Next.js', level: 75 },
+      { name: 'TypeScript', level: 80 },
     ]
   },
   {
-    title: '3D / CREATIVE',
+    title: '3D & CREATIVE',
     icon: '⟁',
     color: 'var(--neon-pink)',
     skills: [
       { name: 'Three.js', level: 88 },
       { name: 'WebGL / GLSL', level: 78 },
       { name: 'React Three Fiber', level: 85 },
-      { name: 'Blender', level: 70 },
       { name: 'GSAP', level: 92 },
+      { name: 'Tailwind CSS', level: 90 },
     ]
   },
   {
-    title: 'TOOLS & BACKEND',
+    title: 'TOOLS & TESTING',
     icon: '⚙',
     color: 'var(--violet)',
     skills: [
-      { name: 'Node.js', level: 80 },
+      { name: 'Playwright (Testing)', level: 82 },
       { name: 'Git & GitHub', level: 90 },
+      { name: 'Vercel / Render / Netlify', level: 88 },
+      { name: 'Node.js', level: 80 },
       { name: 'Vite', level: 88 },
-      { name: 'Figma', level: 75 },
-      { name: 'REST APIs', level: 82 },
     ]
   }
 ];

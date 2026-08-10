@@ -48,7 +48,7 @@ export default function Navbar() {
   return (
     <nav className={`navbar ${isOpen ? 'navbar--open' : ''} ${scrolled ? 'navbar--scrolled' : ''}`}>
       <Link to="/" className="navbar__logo" onClick={() => setIsOpen(false)}>
-        <span className="navbar__logo-icon">⟁</span> PORTFOLIO
+        <span className="navbar__logo-icon">⟁</span> BHANU SAI
       </Link>
 
       {/* Desktop links — always visible on desktop */}

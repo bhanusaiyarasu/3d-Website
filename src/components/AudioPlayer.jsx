@@ -146,7 +146,6 @@ export default function AudioPlayer() {
       onClick={toggleAudio}
       aria-label={isPlaying ? 'Mute audio' : 'Play audio'}
       title={isPlaying ? 'Mute' : 'Play ambient audio'}
-      style={{ cursor: 'pointer' }}
     >
       <div className="audio-toggle__bars">
         <span ref={el => barsRef.current[0] = el} className="audio-toggle__bar" data-default="8" style={{ height: '8px' }} />

@@ -1,6 +1,11 @@
+import { useEffect } from 'react';
 import BentoGrid from '../components/BentoGrid';
 
 export default function Work() {
+  useEffect(() => {
+    document.title = "Selected Works | Bhanu Sai Yarasu";
+  }, []);
+
   return (
     <div className="page-work" style={{ paddingTop: '10vh' }}>
       <section className="work-intro" style={{ textAlign: 'center', marginBottom: '4rem' }}>

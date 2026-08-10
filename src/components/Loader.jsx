@@ -58,7 +58,8 @@ export default function Loader({ onComplete }) {
       scale: 1.05,
       duration: 0.6,
       ease: 'power2.inOut',
-      delay: 0.15
+      delay: 0.15,
+      pointerEvents: 'none'
     });
   }, { scope: containerRef });
 

@@ -4,7 +4,7 @@ import { useGSAP } from '@gsap/react';
 import { Link } from 'react-router-dom';
 import SmoothMarquee from '../components/SmoothMarquee';
 
-const TECH_STACK = ['THREE.JS', 'REACT', 'GSAP', 'WEBGL', 'GLSL', 'VITE', 'R3F', 'FIGMA', 'BLENDER', 'NODE.JS'];
+const TECH_STACK = ['THREE.JS', 'REACT', 'GSAP', 'WEBGL', 'GLSL', 'VITE', 'R3F', 'PLAYWRIGHT', 'WORDPRESS', 'NODE.JS'];
 
 const FLOATING_BADGES = [
   { label: 'WebGL', x: '12%', y: '20%', delay: 0 },

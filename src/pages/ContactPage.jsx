@@ -1,4 +1,4 @@
-import { useRef, Suspense, useMemo } from 'react';
+import { useRef, Suspense, useMemo, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, PerspectiveCamera, MeshDistortMaterial, Environment } from '@react-three/drei';
 import * as THREE from 'three';
@@ -137,6 +137,10 @@ function FloatingGeo() {
 }
 
 export default function ContactPage() {
+  useEffect(() => {
+    document.title = "Contact | Bhanu Sai Yarasu";
+  }, []);
+
   return (
     <div className="page-contact" style={{ paddingTop: '10vh', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <div className="contact-canvas-container" style={{ height: '45vh', width: '100%', marginBottom: '-5vh' }}>
