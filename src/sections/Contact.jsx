@@ -86,7 +86,7 @@ export default function Contact() {
 
   const socials = [
     { name: 'GITHUB', href: 'https://github.com/bhanusaiyarasu/' },
-    { name: 'LINKEDIN', href: 'https://www.linkedin.com/in/bhanu-sai-yarasu-9a8591357' },
+    { name: 'LINKEDIN', href: 'https://www.linkedin.com/in/bhanusaiyarasu/' },
     { name: 'TWITTER', href: 'https://twitter.com' },
     { name: 'INSTAGRAM', href: 'https://instagram.com' },
   ];
