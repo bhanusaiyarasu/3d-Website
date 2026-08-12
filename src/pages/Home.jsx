@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Hero from '../sections/Hero';
 import About from '../sections/About';
+import Developer from '../sections/Developer';
 import Skills from '../sections/Skills';
 import VideoPortal from '../components/VideoPortal';
 import BentoGrid from '../components/BentoGrid';
@@ -19,6 +20,8 @@ export default function Home() {
       <Hero />
       
       <About />
+
+      <Developer />
 
       <Skills />
 
